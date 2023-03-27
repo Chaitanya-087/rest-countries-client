@@ -1,0 +1,48 @@
+*::after,
+*::before,
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /* dark theme */
+    --clr-element: 209, 23%, 22%;
+    --clr-background: 207, 26%, 17%;
+    --clr-text: 0, 0%, 100%;
+
+    --nav-height: 60px;
+}
+
+body {
+    height: 100vh;
+    background-color: hsl(var(--clr-background));
+    font-family: 'Nunito Sans', sans-serif;
+    color: hsl(var(--clr-text));
+    scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: hsla(var(--clr-text), 0.2);
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+img {
+    width: 100%;
+    object-fit: cover;
+}
+section {
+    width: 100vw;
+    max-width: 90%;
+    margin: auto;
+    padding-block:20px ;
+}
