@@ -1,8 +1,8 @@
 import axios from "axios";
 
-export const getCountriesByRegion = async (region) => {
+export const getAllCountries = async (pageParam, region, defferedCountry, sortType) => {
   try {
-    const url = region === 'all' ? `https://restcountries.com/v3.1/all` : `https://restcountries.com/v3.1/region/${region}`;
+    const url = `https://countriesapi-cso6.onrender.com/v1.0/all/?name=${defferedCountry}&region=${region}&page=${pageParam}&sort=${sortType}`;
     const response = await axios.get(url);
     const data = await response.data;
     return data
@@ -11,20 +11,22 @@ export const getCountriesByRegion = async (region) => {
   }
 };
 
-export const getSingleCountry = async (name) => {
+export const getSingleCountry = async ({queryKey}) => {
+  const [name] = queryKey
   try {
-    const url = `https://restcountries.com/v3.1/name/${name}?fullText=true`;
+    const url = `https://countriesapi-cso6.onrender.com/v1.0/name/${name}`;
     const response = await axios.get(url);
     const data = await response.data;
-    return data[0]
+    return data
   } catch (error) {
     throw error
   }
 }
 
-export const getBorderCountries = async (codes) => {
+export const getBorderCountries = async ({queryKey}) => {
+  const [codes] = queryKey
   try {
-    const url = `https://restcountries.com/v3.1/alpha?codes=${codes}`
+    const url = `https://countriesapi-cso6.onrender.com/v1.0/alpha?codes=${codes}`
     const response = await axios.get(url);
     const data = response.data
     return data
@@ -32,4 +34,4 @@ export const getBorderCountries = async (codes) => {
     throw error
   }
 }
-
+getAllCountries()

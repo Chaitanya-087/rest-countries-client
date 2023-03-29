@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import noDataImage from '../assets/No-data-bro2.svg';
+import noDataImage from "../assets/No-data-bro2.svg";
 
 const Image = styled.img`
   max-width: 500px;
@@ -21,11 +21,13 @@ const Message = styled.span`
   font-weight: ${(props) => (props.bold ? 800 : 300)};
 `;
 
-const NotFound = () => {
+const NotFound = ({name}) => {
   return (
     <ImageContainer>
       <Image src={noDataImage} alt='no data present' />
-      <Message bold>No such country or countries</Message>
+      <Message bold>
+        No such country or countries with name {name} exist
+      </Message>
     </ImageContainer>
   );
 };

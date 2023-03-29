@@ -47,7 +47,7 @@ const IconContainer = styled.div`
 const CountryCard = ({country}) => {
   return (
     <CardContainer>
-      <CardBanner src={country.flags.svg} alt={country.flags.alt} />
+      <CardBanner loading="lazy" src={country.flags.svg} alt={country.flags.alt} />
       <CardBody>
         <CardTitle>{country.name.common}</CardTitle>
         <CardDetail>

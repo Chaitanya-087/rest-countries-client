@@ -1,7 +1,7 @@
-import React, {useMemo} from "react";
+import React, {Fragment, useMemo} from "react";
 import {useParams, useNavigate} from "react-router-dom";
 import {useQuery} from "@tanstack/react-query";
-import {getBorderCountries, getSingleCountry} from "../api";
+import {getAllCountries, getBorderCountries, getSingleCountry} from "../api";
 import styled from "styled-components";
 import {Loader} from "../components";
 
@@ -49,15 +49,16 @@ const Borders = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-`
+  margin-block: 1rem;
+`;
 const Border = styled.div`
-  background-color: hsl(var(--clr-element));  
+  background-color: hsl(var(--clr-element));
   box-shadow: hsla(0, 0%, 0%, 0.2) 0px 2px 4px 0px;
-  padding:4px 6px;
+  padding: 4px 6px;
   display: grid;
   place-items: center;
   border-radius: 4px;
-  `
+`;
 const Back = styled.button`
   background-color: hsl(var(--clr-element));
   color: hsl(var(--clr-text));
@@ -66,29 +67,27 @@ const Back = styled.button`
   border-radius: 4px;
   border: none;
   box-shadow: hsla(0, 0%, 0%, 0.2) 0px 2px 4px 0px;
-`
+`;
 const SingleCountry = () => {
   const {name} = useParams();
   const navigate = useNavigate();
-  const queryConfig = useMemo(
-    () => ({
-      queryKey: ["country", name],
-      queryFn: async () => await getSingleCountry(name),
-    }),
-    [name]
-  );
-  const {data: country, isLoading} = useQuery(queryConfig);
+  const {
+    data: country,
+    isLoading,
+    isSuccess,
+  } = useQuery([name], getSingleCountry, {refetchOnWindowFocus: false});
 
-  const {data: borderCountries, isLoading: isBorderLoading} = useQuery({
-    queryKey: ["borders"],
-    queryFn: async () => await getBorderCountries(country?.borders.join(",")),
-  });
+  const {
+    data: borders,
+    isFetched: isBordersLoaded,
+    isFetching: isBordersLoading
+  } = useQuery([country?.borders], getBorderCountries, {enabled: !!country});
+
   return (
     <section>
       <Back onClick={() => navigate(-1)}>Back</Back>
-      {isLoading ? (
-        <Loader />
-      ) : (
+      {isLoading && <Loader />}
+      {isSuccess && (
         <Container>
           <Image src={country.flags.svg} alt={country.flags.alt} />
           <CountryBody>
@@ -131,13 +130,19 @@ const SingleCountry = () => {
                 </Detail>
               </Details>
             </DetailsWrapper>
-                      <Borders>
-                        {
-                          isBorderLoading ? <Loader/> : (
-                            borderCountries.map((country,_idx) => <Border key={_idx}><Detail>{country.name.common}</Detail></Border>)
-                          )
-                        }
-                      </Borders>
+            <Borders>
+              {isBordersLoading && <Loader/>}
+              {isBordersLoaded && 
+                <Fragment>
+                  {borders.countries.length === 0 && <h4>no borders ...</h4>}
+                  {borders.countries.map((country, _idx) => (
+                    <Border key={_idx}>
+                      <Detail>{country.name.common}</Detail>
+                    </Border>
+                  ))}
+                </Fragment>
+              }
+            </Borders>
           </CountryBody>
         </Container>
       )}

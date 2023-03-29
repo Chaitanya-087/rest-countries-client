@@ -3,8 +3,8 @@ import Select from "react-select";
 
 const SortSelector = ({setSortType}) => {
   const options = [
-    {value: "name+1", label: "Name A-Z"},
-    {value: "name-1", label: "Name Z-A"},
+    {value: "asc", label: "Name A-Z"},
+    {value: "desc", label: "Name Z-A"},
     {value: "population", label: "Population ⬆"},
   ];
   

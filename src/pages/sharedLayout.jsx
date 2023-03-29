@@ -6,7 +6,7 @@ const SharedLayout = () => {
   return (
     <React.Fragment>
       <Navbar />
-      <Suspense fallback={<span>Loading...</span>}>
+      <Suspense fallback={<h5 style={{textAlign:'center'}}>Loading...</h5>}>
         <Outlet />
       </Suspense>
     </React.Fragment>

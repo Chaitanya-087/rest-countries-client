@@ -3,7 +3,7 @@ import Select from "react-select";
 
 const RegionSelector = ({setRegion}) => {
   const options = [
-    {value: "all", label: "All"},
+    {value: "", label: "All"},
     {value: "asia", label: "Asia"},
     {value: "africa", label: "Africa"},
     {value: "america", label: "America"},
